@@ -1,0 +1,14 @@
+[
+  {
+    "id": "myapp1",
+    "name": "Finance Tracker",
+    "icon": "icons/finance-foreground.png",
+    "repo": "safkatms/finance-expo"
+  },
+  {
+    "id": "myapp2",
+    "name": "skinO",
+    "icon": "icons/skinO-foreground.png",
+    "repo": "safkatms/skino.app"
+  }
+]

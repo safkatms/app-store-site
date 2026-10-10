@@ -1,17 +1,26 @@
 :root {
-  --bg: #08090d;
-  --surface: rgba(255, 255, 255, 0.045);
+  --bg: #07080c;
+  --surface: rgba(255, 255, 255, 0.04);
   --surface-hover: rgba(255, 255, 255, 0.07);
-  --border: rgba(255, 255, 255, 0.09);
-  --text: #f0f1f5;
-  --text-dim: #8b8fa3;
+  --surface-raised: rgba(255, 255, 255, 0.06);
+  --border: rgba(255, 255, 255, 0.08);
+  --border-hover: rgba(139, 92, 246, 0.45);
+  --text: #eceef5;
+  --text-dim: #7a7e96;
+  --text-muted: #4e5268;
   --accent: #8b5cf6;
+  --accent-dark: #6d28d9;
   --accent2: #22d3ee;
-  --radius: 20px;
+  --radius: 22px;
+  --radius-sm: 14px;
+  --shadow-card:
+    0 2px 8px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  --shadow-btn: 0 6px 24px rgba(139, 92, 246, 0.3);
 }
 
 * {
   box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
 }
 
 body {
@@ -23,124 +32,213 @@ body {
   background: var(--bg);
   color: var(--text);
   margin: 0;
-  padding: 4rem 1.5rem 6rem;
+  padding: 4.5rem 1.5rem 7rem;
   min-height: 100vh;
   position: relative;
   overflow-x: hidden;
 }
 
+/* ── Background noise + orbs ───────────────────────────── */
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  background-size: 200px;
+  opacity: 1;
+  pointer-events: none;
+  z-index: 0;
+}
+
 .orb {
   position: fixed;
   border-radius: 50%;
-  filter: blur(90px);
-  opacity: 0.35;
+  filter: blur(110px);
+  opacity: 0.28;
   z-index: 0;
   pointer-events: none;
+  will-change: transform;
 }
 .orb-1 {
-  width: 500px;
-  height: 500px;
-  top: -180px;
-  left: -120px;
-  background: radial-gradient(circle, var(--accent), transparent 70%);
+  width: 580px;
+  height: 580px;
+  top: -200px;
+  left: -150px;
+  background: radial-gradient(circle, var(--accent), transparent 68%);
+  animation: drift1 18s ease-in-out infinite alternate;
 }
 .orb-2 {
-  width: 450px;
-  height: 450px;
-  bottom: -160px;
-  right: -100px;
-  background: radial-gradient(circle, var(--accent2), transparent 70%);
+  width: 500px;
+  height: 500px;
+  bottom: -180px;
+  right: -120px;
+  background: radial-gradient(circle, var(--accent2), transparent 68%);
+  animation: drift2 22s ease-in-out infinite alternate;
 }
+
+@keyframes drift1 {
+  from {
+    transform: translate(0, 0);
+  }
+  to {
+    transform: translate(30px, 20px);
+  }
+}
+@keyframes drift2 {
+  from {
+    transform: translate(0, 0);
+  }
+  to {
+    transform: translate(-25px, -15px);
+  }
+}
+
+/* ── Header ────────────────────────────────────────────── */
 
 .header {
   position: relative;
   z-index: 1;
   text-align: center;
-  margin-bottom: 3.5rem;
+  margin-bottom: 4rem;
 }
 
 .eyebrow {
-  display: inline-block;
-  font-size: 0.72rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.7rem;
   font-weight: 600;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--accent2);
-  background: rgba(34, 211, 238, 0.1);
-  border: 1px solid rgba(34, 211, 238, 0.25);
-  padding: 0.3rem 0.8rem;
+  background: rgba(34, 211, 238, 0.08);
+  border: 1px solid rgba(34, 211, 238, 0.2);
+  padding: 0.3rem 0.85rem;
   border-radius: 999px;
-  margin-bottom: 1rem;
+  margin-bottom: 1.1rem;
+}
+
+.eyebrow::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent2);
+  box-shadow: 0 0 6px var(--accent2);
+  animation: blink 2.5s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
 }
 
 .header h1 {
-  font-size: clamp(2.2rem, 5vw, 3rem);
+  font-size: clamp(2.4rem, 5.5vw, 3.4rem);
   font-weight: 800;
-  letter-spacing: -0.02em;
-  margin: 0 0 0.5rem;
-  background: linear-gradient(90deg, #fff, #b8bcd6);
+  letter-spacing: -0.03em;
+  margin: 0 0 0.6rem;
+  background: linear-gradient(135deg, #fff 30%, #9b8fd4 80%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  line-height: 1.1;
 }
 
 .header p {
   color: var(--text-dim);
   font-size: 1rem;
   margin: 0;
+  letter-spacing: -0.01em;
 }
+
+/* ── Grid ──────────────────────────────────────────────── */
 
 #app-list {
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
-  gap: 1.5rem;
-  max-width: 1150px;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.4rem;
+  max-width: 1180px;
   margin: 0 auto;
 }
 
+/* ── App Card ──────────────────────────────────────────── */
+
 .app-card {
   background: var(--surface);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 1.5rem;
+  padding: 1.6rem;
   display: flex;
   flex-direction: column;
   gap: 1.1rem;
   position: relative;
   overflow: hidden;
+  box-shadow: var(--shadow-card);
   transition:
-    transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
-    border-color 0.25s ease,
-    background 0.25s ease;
+    transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    background 0.3s ease;
 }
 
+/* top-left highlight streak */
+.app-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.12) 40%,
+    transparent
+  );
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+
+/* hover radial tint */
 .app-card::before {
   content: "";
   position: absolute;
   inset: 0;
   background: radial-gradient(
-    circle at 30% 0%,
-    rgba(139, 92, 246, 0.12),
-    transparent 60%
+    ellipse at 25% 0%,
+    rgba(139, 92, 246, 0.15),
+    transparent 55%
   );
   opacity: 0;
-  transition: opacity 0.25s ease;
+  transition: opacity 0.3s ease;
   pointer-events: none;
 }
 
 .app-card:hover {
-  transform: translateY(-6px);
-  border-color: rgba(139, 92, 246, 0.4);
+  transform: translateY(-7px) scale(1.005);
+  border-color: var(--border-hover);
   background: var(--surface-hover);
+  box-shadow:
+    0 16px 40px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(139, 92, 246, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 .app-card:hover::before {
   opacity: 1;
 }
+
+/* ── App Top Row ───────────────────────────────────────── */
 
 .app-top {
   display: flex;
@@ -149,13 +247,22 @@ body {
 }
 
 .app-icon-wrap {
-  width: 60px;
-  height: 60px;
-  border-radius: 16px;
+  width: 62px;
+  height: 62px;
+  border-radius: 18px;
   flex-shrink: 0;
   overflow: hidden;
-  border: 1px solid var(--border);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(255, 255, 255, 0.04);
+  transition: box-shadow 0.3s ease;
+}
+
+.app-card:hover .app-icon-wrap {
+  box-shadow:
+    0 10px 28px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(139, 92, 246, 0.25);
 }
 
 .app-icon-wrap img {
@@ -172,107 +279,185 @@ body {
   align-items: center;
   justify-content: center;
   font-weight: 800;
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   color: white;
 }
 
 .app-name {
-  font-size: 1.08rem;
+  font-size: 1.05rem;
   font-weight: 700;
   margin: 0;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.015em;
+  color: var(--text);
 }
 
 .version-badge {
   display: inline-block;
-  margin-top: 0.35rem;
-  font-size: 0.72rem;
+  margin-top: 0.3rem;
+  font-size: 0.68rem;
   font-weight: 600;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.04em;
   color: var(--accent2);
-  background: rgba(34, 211, 238, 0.1);
-  border: 1px solid rgba(34, 211, 238, 0.25);
-  padding: 0.15rem 0.6rem;
+  background: rgba(34, 211, 238, 0.09);
+  border: 1px solid rgba(34, 211, 238, 0.2);
+  padding: 0.14rem 0.55rem;
   border-radius: 999px;
 }
 
+/* ── Changelog ─────────────────────────────────────────── */
+
 .changelog {
   white-space: pre-wrap;
-  font-size: 0.82rem;
-  line-height: 1.55;
+  font-size: 0.8rem;
+  line-height: 1.6;
   color: var(--text-dim);
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--border);
-  padding: 0.75rem 0.85rem;
-  border-radius: 12px;
-  max-height: 110px;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 0.8rem 0.9rem;
+  border-radius: var(--radius-sm);
+  min-height: 108px;
+  max-height: 108px;
   overflow-y: auto;
   margin: 0;
   font-family: inherit;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
 }
 
 .changelog::-webkit-scrollbar {
-  width: 6px;
+  width: 4px;
+}
+.changelog::-webkit-scrollbar-track {
+  background: transparent;
 }
 .changelog::-webkit-scrollbar-thumb {
-  background: var(--border);
-  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
 }
+.changelog::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* ── Download Button ───────────────────────────────────── */
 
 .download-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.45rem;
-  padding: 0.7rem 1rem;
-  background: linear-gradient(90deg, var(--accent), #6d28d9);
+  gap: 0.5rem;
+  padding: 0.72rem 1rem;
+  background: linear-gradient(
+    135deg,
+    var(--accent) 0%,
+    var(--accent-dark) 100%
+  );
   color: white;
   font-weight: 600;
-  font-size: 0.9rem;
-  border-radius: 12px;
+  font-size: 0.88rem;
+  letter-spacing: -0.01em;
+  border-radius: var(--radius-sm);
   text-decoration: none;
-  box-shadow: 0 8px 20px rgba(139, 92, 246, 0.25);
+  box-shadow: var(--shadow-btn);
   transition:
-    filter 0.15s ease,
-    transform 0.15s ease;
+    filter 0.18s ease,
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.download-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.12),
+    transparent
+  );
+  transition: left 0.5s ease;
 }
 
 .download-btn:hover {
-  filter: brightness(1.12);
-  transform: translateY(-1px);
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 32px rgba(139, 92, 246, 0.45);
 }
+
+.download-btn:hover::before {
+  left: 160%;
+}
+
+.download-btn:active {
+  transform: translateY(0);
+  filter: brightness(0.95);
+}
+
+/* ── No APK state ──────────────────────────────────────── */
 
 .no-apk {
   text-align: center;
-  color: var(--text-dim);
-  font-size: 0.85rem;
-  padding: 0.7rem;
-  border: 1px dashed var(--border);
-  border-radius: 12px;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  padding: 0.75rem;
+  border: 1px dashed rgba(255, 255, 255, 0.07);
+  border-radius: var(--radius-sm);
+  letter-spacing: 0.01em;
 }
+
+/* ── Error Card ────────────────────────────────────────── */
 
 .app-card.error {
   align-items: center;
   text-align: center;
-  border-color: rgba(239, 68, 68, 0.3);
+  border-color: rgba(239, 68, 68, 0.25);
+  background: rgba(239, 68, 68, 0.04);
   color: #f87171;
-  padding: 1.75rem;
+  padding: 2rem;
 }
 
+/* ── Skeleton Loader ───────────────────────────────────── */
+
 .skeleton {
-  background: var(--surface);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.03) 0%,
+    rgba(255, 255, 255, 0.06) 50%,
+    rgba(255, 255, 255, 0.03) 100%
+  );
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  height: 170px;
-  animation: pulse 1.4s ease-in-out infinite;
+  height: 178px;
+  animation: pulse 1.6s ease-in-out infinite;
 }
 
 @keyframes pulse {
   0%,
   100% {
-    opacity: 0.4;
+    opacity: 0.35;
   }
   50% {
-    opacity: 0.9;
+    opacity: 0.85;
+  }
+}
+
+/* ── Responsive ────────────────────────────────────────── */
+
+@media (max-width: 480px) {
+  body {
+    padding: 3rem 1rem 5rem;
+  }
+  #app-list {
+    gap: 1rem;
+  }
+  .app-card {
+    padding: 1.25rem;
+  }
+  .header h1 {
+    font-size: 2rem;
   }
 }

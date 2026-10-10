@@ -10,5 +10,11 @@
     "name": "skinO",
     "icon": "icons/skinO-foreground.png",
     "repo": "safkatms/skino.app"
+  },
+  {
+    "id": "myapp3",
+    "name": "ByteCode",
+    "icon": "icons/bytecode.png",
+    "repo": "safkatms/bytecode-app"
   }
 ]

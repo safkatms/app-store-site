@@ -461,3 +461,32 @@ body::after {
     font-size: 2rem;
   }
 }
+
+/* ── Error detail ──────────────────────────────────────────── */
+
+.app-card.error .app-icon-wrap {
+  margin-bottom: 0.5rem;
+}
+
+.error-msg {
+  font-size: 0.82rem;
+  color: #f87171;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.error-hint {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin: 0.4rem 0 0;
+  line-height: 1.5;
+}
+
+.error-hint code {
+  font-family: ui-monospace, "Cascadia Code", monospace;
+  font-size: 0.7rem;
+  background: rgba(255,255,255,0.06);
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+  color: var(--accent2);
+}
